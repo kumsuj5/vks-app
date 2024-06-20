@@ -14,67 +14,144 @@
 
 <body>
     <div class="container">
-        <div class="card p-5 mt-5">
-            <div class="text-center mb-5">
-                <h1>Student from</h1>
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
-            <div class="row">
-                <div class="col-lg-4">
-                    <label class="form-label">Name</label>
-                    <input class="form-control">
-                </div>
-                <div class="col-lg-4">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input class="form-control" id="exampleInputEmail1">
-                </div>
-                <div class="col-lg-4"> <label class="form-label">Mobile</label>
-                    <input class="form-control">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4">
-                    <label class="form-label">Institute</label>
-                    <input class="form-control">
-                </div>
-                <div class="col-lg-4">
-                    <label class="form-label">State</label>
-                    <input class="form-control">
-                </div>
-                <div class="col-lg-4">
-                    <label class="form-label">District</label>
-                    <input class="form-control">
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label class="form-label">Address</label>
-                    <input class="form-control">
-                </div>
-            </div>
-            <div class="row mt-5">
-                <div class="col-lg-12">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
+        @endif
 
-        </div>
+        {{-- @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif --}}
+
+        <form action="{{url('/')}}/student" method="post">
+            @csrf
+            <div class="card p-5 mt-5">
+                <div class="text-center mb-5">
+                    <h1>Student from</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <label class="form-label">Name</label>
+                        <input name="name" class="form-control" value="{{ old('name') }}">
+                   <span class="text-danger">
+                    @error('name')
+                    {{$message}}
+                    @enderror
+                   </span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input name="email" class="form-control" id="exampleInputEmail1" value="{{ old('email') }}">
+                        <span class="text-danger">
+                            @error('email')
+                            {{$message}}
+                            @enderror
+                           </span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label">Mobile</label>
+                        <input name="mobile" class="form-control" value="{{ old('mobile') }}">
+                        <span class="text-danger">
+                            @error('mobile')
+                            {{$message}}
+                            @enderror
+                           </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <label class="form-label">Institute</label>
+                        <input name="institute" class="form-control" value="{{ old('institute') }}">
+                        <span class="text-danger">
+                            @error('institute')
+                            {{$message}}
+                            @enderror
+                           </span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label">State</label>
+                        <input name="state" class="form-control" value="{{ old('state') }}">
+                        <span class="text-danger">
+                            @error('state')
+                            {{$message}}
+                            @enderror
+                           </span>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label">District</label>
+                        <input name="district" class="form-control" value="{{ old('district') }}">
+                        <span class="text-danger">
+                            @error('district')
+                            {{$message}}
+                            @enderror
+                           </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="form-label">Address</label>
+                        <input name="address" class="form-control" value="{{ old('address') }}">
+                        <span class="text-danger">
+                            @error('address')
+                            {{$message}}
+                            @enderror
+                           </span>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
         <div class="row">
             <div class="col-lg-12 mt-5">
                 <table class="table table-bordered">
                     <thead>
-                            <tr>
-                                <th>Person 1</th>
-                                <th>Person 2</th>
-                                <th>Person 3</th>
-                            </tr>
-                        
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Institute</th>
+                            <th>State</th>
+                            <th>District</th>
+                            <th>Address</th>
+                            <th>Created At</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Person 1</td>
-                            <td>Person 2</td>
-                            <td>Person 3</td>
-                        </tr>
+                        @foreach($student as $index=> $student)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $student->name }}</td>
+                                <td>{{ $student->email }}</td>
+                                <td>{{ $student->mobile }}</td>
+                                <td>{{ $student->institute }}</td>
+                                <td>{{ $student->state }}</td>
+                                <td>{{ $student->district }}</td>
+                                <td>{{ $student->address }}</td>
+                                <td>{{ $student->created_at }}</td>
+                                <td>
+                                    <a href="{{ url('/student/edit', $student->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ url('/student', ['id' => $student->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -83,6 +160,7 @@
 </body>
 
 </html>
+
 
 
 <!-- resources/views/students/index.blade.php -->
