@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,3 +23,6 @@ Route::post('/student', [StudentController::class,'studentfromsubmit']);
 Route::delete('/student/{id}',[StudentController::class,'deleteStudent']);
 Route::get('/student/edit/{id}', [StudentController::class, 'editStudent']);
 Route::put('/student/{id}', [StudentController::class, 'updateStudent']);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
