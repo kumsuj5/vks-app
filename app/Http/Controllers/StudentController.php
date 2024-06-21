@@ -18,12 +18,12 @@ class StudentController extends Controller
     {
         // Validate the form data
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:students',
+            'name' => 'required|string|max:25',
+            'email' => 'required|string|email|max:25|unique:students',
             'mobile' => 'required|string|max:15',
-            'institute' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'district' => 'required|string|max:255',
+            'institute' => 'required|string|max:25',
+            'state' => 'required|string|max:25',
+            'district' => 'required|string|max:25',
             'address' => 'required|string',
         ]);
 
