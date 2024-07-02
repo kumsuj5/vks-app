@@ -15,6 +15,7 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('branch_id');
             $table->string('name');
             $table->string('email')->unique();
             $table->string('mobile');
@@ -23,6 +24,8 @@ class CreateStudentsTable extends Migration
             $table->string('district');
             $table->string('address');
             $table->timestamps();
+
+            $table->foreign('branch_id')->references('id')->on('branches');
         });
     }
 

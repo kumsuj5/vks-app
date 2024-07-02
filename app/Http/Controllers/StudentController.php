@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Models\Student;
 
@@ -9,10 +10,13 @@ class StudentController extends Controller
 {
     public function studentfrom()
     {
-        $student = Student::all();
-
-        return view('student', compact('student'));
+        // $student = Student::all();
+        $student = Student::with('branch')->get();
+        $branches = Branch::where('satus',1)->get();
+        // return $student;    
+        return view('student', compact('student','branches'));
     }
+    
 
     public function studentfromsubmit(Request $request)
     {
@@ -36,6 +40,7 @@ class StudentController extends Controller
         $student->state = $request->state;
         $student->district = $request->district;
         $student->address = $request->address;
+        $student->branch_id = $request->branch_id;
         $student->save();
 
         // Redirect to a success page or back to the form with a success message
@@ -57,11 +62,16 @@ class StudentController extends Controller
     {
         // Find the student by ID
         $student = Student::find($id);
+        $branches = Branch::where('satus',1)->get();
         if ($student) {
-            return view('edit-student', compact('student'));
+            return view('edit-student', compact('student','branches'));
         } else {
             return redirect('/student')->with('error', 'Student not found!');
         }
+        // $student = Student::with('branch')->get();
+        // $branches = Branch::where('satus',1)->get();
+        // // return $student;    
+        // return view('student', compact('student','branches'));
     }
     
     public function updateStudent(Request $request, $id)
@@ -87,6 +97,7 @@ class StudentController extends Controller
             $student->state = $request->state;
             $student->district = $request->district;
             $student->address = $request->address;
+            $student->branch_id = $request->branch_id;
             $student->save();
 
             return redirect('/student')->with('success', 'Student data updated successfully!');
