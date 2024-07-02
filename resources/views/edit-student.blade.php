@@ -76,7 +76,17 @@
                         <label class="form-label">Address</label>
                         <input name="address" class="form-control" value="{{ old('address', $student->address) }}">
                     </div>
+                </div>  
+                <div class="col-lg-12">
+                    <label class="form-label">Branches</label>
+                    <select class="form-select" aria-label="Default select example" name="branch_id" required>
+                        <option selected disabled>Open this select menu</option>
+                        @foreach ($branches as $item)
+                            <option value="{{ $item->id }}" {{ $student->branch_id == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
+                
                 <div class="row mt-5">
                     <div class="col-lg-12">
                         <button type="submit" class="btn btn-primary">Update</button>

@@ -14,7 +14,7 @@
 
 <body>
     <div class="container">
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
@@ -30,7 +30,7 @@
             </div>
         @endif --}}
 
-        <form action="{{url('/')}}/student" method="post">
+        <form action="{{ url('/') }}/student" method="post">
             @csrf
             <div class="card p-5 mt-5">
                 <div class="text-center mb-5">
@@ -40,29 +40,29 @@
                     <div class="col-lg-4">
                         <label class="form-label">Name</label>
                         <input name="name" class="form-control" value="{{ old('name') }}">
-                   <span class="text-danger">
-                    @error('name')
-                    {{$message}}
-                    @enderror
-                   </span>
+                        <span class="text-danger">
+                            @error('name')
+                                {{ $message }}
+                            @enderror
+                        </span>
                     </div>
                     <div class="col-lg-4">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
                         <input name="email" class="form-control" id="exampleInputEmail1" value="{{ old('email') }}">
                         <span class="text-danger">
                             @error('email')
-                            {{$message}}
+                                {{ $message }}
                             @enderror
-                           </span>
+                        </span>
                     </div>
                     <div class="col-lg-4">
                         <label class="form-label">Mobile</label>
                         <input name="mobile" class="form-control" value="{{ old('mobile') }}">
                         <span class="text-danger">
                             @error('mobile')
-                            {{$message}}
+                                {{ $message }}
                             @enderror
-                           </span>
+                        </span>
                     </div>
                 </div>
                 <div class="row">
@@ -71,27 +71,27 @@
                         <input name="institute" class="form-control" value="{{ old('institute') }}">
                         <span class="text-danger">
                             @error('institute')
-                            {{$message}}
+                                {{ $message }}
                             @enderror
-                           </span>
+                        </span>
                     </div>
                     <div class="col-lg-4">
                         <label class="form-label">State</label>
                         <input name="state" class="form-control" value="{{ old('state') }}">
                         <span class="text-danger">
                             @error('state')
-                            {{$message}}
+                                {{ $message }}
                             @enderror
-                           </span>
+                        </span>
                     </div>
                     <div class="col-lg-4">
                         <label class="form-label">District</label>
                         <input name="district" class="form-control" value="{{ old('district') }}">
                         <span class="text-danger">
                             @error('district')
-                            {{$message}}
+                                {{ $message }}
                             @enderror
-                           </span>
+                        </span>
                     </div>
                 </div>
                 <div class="row">
@@ -100,10 +100,20 @@
                         <input name="address" class="form-control" value="{{ old('address') }}">
                         <span class="text-danger">
                             @error('address')
-                            {{$message}}
+                                {{ $message }}
                             @enderror
-                           </span>
+                        </span>
                     </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <label class="form-label">Branches</label>
+                    <select class="form-select" aria-label="Default select example" name="branch_id">
+                        <option selected disabled>Open this select menu</option>
+                        @foreach ($branches as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="row mt-5">
                     <div class="col-lg-12">
@@ -126,12 +136,13 @@
                             <th>State</th>
                             <th>District</th>
                             <th>Address</th>
+                            <th>Branch</th>
                             <th>Created At</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($student as $index=> $student)
+                        @foreach ($student as $index => $student)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $student->name }}</td>
@@ -141,10 +152,13 @@
                                 <td>{{ $student->state }}</td>
                                 <td>{{ $student->district }}</td>
                                 <td>{{ $student->address }}</td>
+                                <td>{{ $student->branch->name}}</td>
                                 <td>{{ $student->created_at }}</td>
                                 <td>
-                                    <a href="{{ url('/student/edit', $student->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ url('/student', ['id' => $student->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                                    <a href="{{ url('/student/edit', $student->id) }}"
+                                        class="btn btn-warning btn-sm">Edit</a>
+                                    <form action="{{ url('/student', ['id' => $student->id]) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this student?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -194,7 +208,7 @@
                     </tr>
                 </thead>
                 <tbody id="studentsTableBody">
-                    @foreach($students as $student)
+                    @foreach ($students as $student)
                         <tr id="studentRow{{ $student->id }}">
                             <td>{{ $student->name }}</td>
                             <td>{{ $student->email }}</td>
